@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+  >
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Calculator</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <style>
+      .container {
+        width: 320px;
+        height: 600px;
+        background-color: black;
+        opacity: 85%;
+        border-radius: 40px;
+      }
+      .row p {
+        color: aliceblue;
+      }
+      .btn-dark {
+        color: white;
+        font-size: 23px;
+        font-weight: 500;
+        background-color: transparent;
+        border: 0;
+      }
+      .row input {
+        background-color: #060606;
+        color: white;
+        font-size: 45px;
+        border: 0;
+      }
+      .red {
+        color: brown;
+      }
+      .green {
+        color: rgb(75, 121, 6);
+      }
+      .history {
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container mt-5">
+      <div class="row text-center py-4">
+        <button class="btn btn-dark pt-3 darkMode">Light Mode</button>
+      </div>
+      <p class="history text-end pe-3"></p>
+      <div class="row my-1 pb-4">
+        <input type="text" class="form-control text-end pe-4 display" />
+      </div>
+      <div class="mt-2 pt-1">
+        <div class="row">
+          <button value="AC" class="btn btn-dark col-3 py-3 green clearAll">
+            AC
+          </button>
+          <button value="+/-" class="btn btn-dark col-3 py-3 green angka">
+            +/-
+          </button>
+          <button value="%" class="btn btn-dark col-3 py-3 green angka">
+            %
+          </button>
+          <button value="/" class="btn btn-dark col-3 py-3 red angka">/</button>
+        </div>
+        <div class="row">
+          <button value="7" class="btn btn-dark col-3 py-3 angka">7</button>
+          <button value="8" class="btn btn-dark col-3 py-3 angka">8</button>
+          <button value="9" class="btn btn-dark col-3 py-3 angka">9</button>
+          <button value="*" class="btn btn-dark col-3 py-3 red angka">*</button>
+        </div>
+        <div class="row">
+          <button value="4" class="btn btn-dark col-3 py-3 angka">4</button>
+          <button value="5" class="btn btn-dark col-3 py-3 angka">5</button>
+          <button value="6" class="btn btn-dark col-3 py-3 angka">6</button>
+          <button value="-" class="btn btn-dark col-3 py-3 red angka">-</button>
+        </div>
+        <div class="row">
+          <button value="1" class="btn btn-dark col-3 py-3 angka">1</button>
+          <button value="2" class="btn btn-dark col-3 py-3 angka">2</button>
+          <button value="3" class="btn btn-dark col-3 py-3 angka">3</button>
+          <button value="+" class="btn btn-dark col-3 py-3 red angka">+</button>
+        </div>
+        <div class="row">
+          <button value="C" class="btn btn-dark col-3 py-3 clear">C</button>
+          <button value="0" class="btn btn-dark col-3 py-3 angka">0</button>
+          <button value="." class="btn btn-dark col-3 py-3 angka">.</button>
+          <button value="=" class="btn btn-dark col-3 py-3 red result">
+            =
+          </button>
+        </div>
+      </div>
+    </div>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function (event) {
+        // console.log(event);
+        let body = document.querySelector("body");
+        let display = document.querySelector("input.display");
+        let result = document.querySelector(".result");
+        let clearAll = document.querySelector(".clearAll");
+        let clear = document.querySelector(".clear");
+        let angka = document.querySelectorAll(".angka");
+        let darkMode = document.querySelector(".darkMode");
+        let history = document.querySelector(".history");
+
+        let initialValue = "";
+        Array.from(angka).forEach((element, index) => {
+          element.addEventListener("click", (e) => {
+            // console.log(e.target.value);
+            // console.log(this);
+            // console.log(index);
+            // let str = this.innerHtml;
+            let num = e.target.value;
+            initialValue += num;
+            display.value = initialValue;
+          });
+          if (initialValue === "%") {
+            initialValue += parseFloat(initialValue) / 100;
+          }
+        });
+
+        result.addEventListener("click", () => {
+          if (display.value != "") {
+            history.innerHTML = display.value;
+            initialValue = eval(display.value);
+            display.value = eval(initialValue);
+          } else {
+            console.log("Please Enter Number");
+          }
+        });
+
+        clearAll.addEventListener("click", () => {
+          display.value = "";
+          initialValue = "";
+        });
+
+        clear.addEventListener("click", () => {
+          // display.value = display.value.substring(0, display.value.length - 1);
+          display.value = display.value.toString().slice(0, -1);
+          initialValue = display.value;
+        });
+
+        darkMode.addEventListener("click", () => {
+          if (
+            document.documentElement.getAttribute("data-bs-theme") == "light"
+          ) {
+            document.documentElement.setAttribute("data-bs-theme", "dark");
+          } else {
+            document.documentElement.setAttribute("data-bs-theme", "light");
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
