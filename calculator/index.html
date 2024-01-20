@@ -49,7 +49,7 @@
   <body>
     <div class="container mt-5">
       <div class="row text-center py-4">
-        <button class="btn btn-dark pt-3 darkMode">Light Mode</button>
+        <button class="btn btn-dark pt-3 darkMode">Dark/Light Mode</button>
       </div>
       <p class="history text-end pe-3"></p>
       <div class="row my-1 pb-4">
@@ -122,11 +122,13 @@
             // let str = this.innerHtml;
             let num = e.target.value;
             initialValue += num;
+            if (num == "%") {
+              initialValue = parseInt(initialValue) / 100;
+            } else if (num == "+/-") {
+              initialValue = parseInt(initialValue) * -1;
+            }
             display.value = initialValue;
           });
-          if (initialValue === "%") {
-            initialValue += parseFloat(initialValue) / 100;
-          }
         });
 
         result.addEventListener("click", () => {
